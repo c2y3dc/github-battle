@@ -9,7 +9,7 @@ var Loading = require('./Loading');
 
 function ConfirmBattle(props){
 	return props.isLoading === true
-		? <Loading />
+		? <Loading speed={500} text={"Waiting"}/>
     : <MainContainer>
         <h1>Confirm Players</h1>
         <div className='col-sm-8 col-sm-offset-2'>
