@@ -1,8 +1,8 @@
-var React = require('react');
-var ReactCSSransitionGroup = require('react-addons-css-transition-group');
-require('./main.css');
+import React from 'react'
+import ReactCSSransitionGroup from 'react-addons-css-transition-group'
+import './main.css'
 
-var Main = function(props){
+const Main = function(props){
 	return (
 		<div className="main-container">
 			<ReactCSSransitionGroup
@@ -15,4 +15,4 @@ var Main = function(props){
 	)
 }
 
-module.exports = Main;
+export default Main

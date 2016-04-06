@@ -1,7 +1,6 @@
-var React = require('react');
-var PropTypes = React.PropTypes;
-var transparentBg = require('../styles').transparentBg
-var MainContainer = require('../containers/MainContainer');
+import React, { PropTypes } from 'react'
+import { transparentBg } from '../styles'
+import MainContainer from '../containers/MainContainer'
 
 //functional stateless components
 
@@ -40,4 +39,4 @@ Prompt.propTypes = {
 	username: PropTypes.string.isRequired
 }
 
-module.exports = Prompt;
+export default Prompt
