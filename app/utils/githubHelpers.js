@@ -18,18 +18,16 @@ function getTotalStars(repos){
 	return repos.data.reduce((prev, current) => prev + current.stargazers_count, 0)
 }
 
-function getPlayersData(player) {
+async function getPlayersData(player) {
 	// get repos
 	// get totalStars
 	// return object with that data
-	return getRepos(player.login)
-		.then(getTotalStars)
-		.then((totalStars) => (
-			{
-				followers: player.followers,
-				totalStars
-			}
-		))
+	try {const repos = await getRepos(player.login)
+		const totalStars = await getTotalStars(repos)
+		return { followers: player.followers, totalStars}
+	} catch(error){
+		console.warn("Error in getPlayersData", error)
+	}
 }
 
 function calculateScores(players) {
@@ -40,18 +38,23 @@ function calculateScores(players) {
 	]
 }
 
-export function getPlayersInfo(players){
+export async function getPlayersInfo(players){
 	//fetch some data from Github
-	return axios.all(players.map((username) => getUserInfo(username)))
-		.then((info) => info.map((user) => user.data))
-		.catch((err) => console.warn("Error in getPlayersInfo", err))
+	try {
+		const info = await Promise.all(players.map((username) => getUserInfo(username)))
+		return info.map((user) => user.data)
+	}	catch(error) {
+		console.warn("Error in getPlayersInfo", error)
+	}
 }
 
-export function battle(players){
+export async function battle(players){
 	const playerOneData = getPlayersData(players[0]);
 	const playerTwoData = getPlayersData(players[1]);
-
-	return axios.all([playerOneData, playerTwoData])
-		.then(calculateScores)
-		.catch((err) => console.warn("Error in battle function", err))
+	try {	
+		const data = await Promise.all([playerOneData, playerTwoData])
+		return calculateScores(data)
+	} catch(error){
+		console.warn("Error in battle function", err)
+	}
 }

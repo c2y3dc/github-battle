@@ -12,17 +12,19 @@ const ConfirmBattleContainer = React.createClass({
 			playersInfo: []
 		}
 	},
-	componentDidMount() {
+	async componentDidMount() {
 		const { query } = this.props.location;
 		//fetch info from github then update state
 		//https://egghead.io/playlists/the-this-key-word-250c37d9
-		getPlayersInfo([query.playerOne, query.playerTwo])
-			.then((players) =>{
-				this.setState({
-					isLoading: false,
-					playersInfo: [players[0], players[1]]
-				})
+		try {
+			const players = await getPlayersInfo([query.playerOne, query.playerTwo])
+			this.setState({
+				isLoading: false,
+				playersInfo: [players[0], players[1]]
 			})
+		} catch(error){
+			console.warn("Error in ConfirmBattleContainer", error)
+		}
 	},
 	handleInitialBattle() {
 		this.context.router.push({
